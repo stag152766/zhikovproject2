@@ -16,11 +16,6 @@ public class Coffee extends Entity {
     }
 
     @Override
-    public void makeMove() {
-        // nothing
-    }
-
-    @Override
     public String render() {
         return "C";
     }

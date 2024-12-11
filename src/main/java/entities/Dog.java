@@ -1,6 +1,5 @@
 package entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +19,7 @@ public class Dog extends Creature {
     @Override
     public void makeMove() {
         // attack man
-        // run (move to man)
+        // run (move to man) update coordinates +- speed
     }
 
     @Override
