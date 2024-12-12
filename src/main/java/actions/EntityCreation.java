@@ -1,6 +1,7 @@
 package actions;
 
 import core.Coordinates;
+import core.SimMap;
 import entities.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,8 +16,10 @@ public class EntityCreation implements Action {
     private final int treeCount;
     private final int building;
     private final int coffeeCount;
+    private final SimMap simMap;
 
-    public EntityCreation(int manCount, int dogCount, int treeCount, int building, int coffeeCount) {
+    public EntityCreation(SimMap simMap, int manCount, int dogCount, int treeCount, int building, int coffeeCount) {
+        this.simMap = simMap;
         this.manCount = manCount;
         this.dogCount = dogCount;
         this.treeCount = treeCount;
@@ -24,30 +27,44 @@ public class EntityCreation implements Action {
         this.coffeeCount = coffeeCount;
     }
 
+
     @Override
-    public void apply(Map<Coordinates, Entity> map) {
+    public void apply(SimMap simMap) {
+        Map<Coordinates, Entity> map = simMap.getEntitiesOnMap();
+        setUpEntitiesWithDefaultPosition(map);
+    }
+
+    private void setUpEntitiesWithDefaultPosition(Map<Coordinates, Entity> map) {
         if (!map.isEmpty()) {
             System.out.println("Map is not empty! Cannot create new entity.");
         }
 
         for (int i = 0; i < dogCount; i++) {
-            Entity dog = new Dog(1,30, 20);
-            map.put(new Coordinates(1,2), dog);
+            Entity entity = new Dog(1, 30, 20);
+            Coordinates coordinates = new Coordinates(0, 1);
+            entity.setCoordinates(coordinates);
+            map.put(coordinates, entity);
         }
 
         for (int i = 0; i < manCount; i++) {
-            Entity man = new DeliveryMan(2, 60);
-            map.put(new Coordinates(2,3), man);
+            Entity entity = new DeliveryMan(2, 60);
+            Coordinates coordinates = new Coordinates(0, 0);
+            entity.setCoordinates(coordinates);
+            map.put(coordinates, entity);
         }
 
         for (int i = 0; i < coffeeCount; i++) {
-            Entity coffee = new Coffee(20);
-            map.put(new Coordinates(3,1), coffee);
+            Entity entity = new Coffee(20);
+            Coordinates coordinates = new Coordinates(1, 5);
+            entity.setCoordinates(coordinates);
+            map.put(coordinates, entity);
         }
 
         for (int i = 0; i < treeCount; i++) {
-            Entity tree = new Tree();
-            map.put(new Coordinates(3,6), tree);
+            Entity entity = new Tree();
+            Coordinates coordinates = new Coordinates(5, 8);
+            entity.setCoordinates(coordinates);
+            map.put(coordinates, entity);
         }
     }
 }

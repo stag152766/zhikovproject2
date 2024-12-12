@@ -13,20 +13,17 @@ public class DeliveryMan extends Creature {
 
     // run, get a resource (increase hp) or deliver shipment (decrease weight)
     @Override
-    public void makeMove() {
-        Coordinates currCoordinates = getCoordinates();
-        Coordinates nextCoordinates = selectNextCell(currCoordinates);
-        setCoordinates(nextCoordinates);
-    }
-
-    private Coordinates selectNextCell(Coordinates currCoordinates) {
-        int x = currCoordinates.getX();
-        int y = currCoordinates.getY();
-        return new Coordinates(x, y);
+    public void makeMove(Coordinates next) {
+        setCoordinates(next);
     }
 
     @Override
     public String render() {
         return "M";
+    }
+
+    @Override
+    protected boolean isInteractionAvailable(Entity neigh) {
+        return false;
     }
 }

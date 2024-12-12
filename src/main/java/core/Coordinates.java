@@ -1,13 +1,20 @@
 package core;
 
-import lombok.Getter;
-
 import java.util.Objects;
 
-@Getter
 public class Coordinates {
-    private final int x;
-    private final int y;
+    public final int x;
+    public final int y;
+
+    // расчет сдвига
+    public Coordinates processShift(CoordinatesShift shift) {
+        return new Coordinates(this.x + shift.xShift, this.y + shift.yShift);
+    }
+
+    public boolean canShift(CoordinatesShift shift) {
+        Coordinates next = this.processShift(shift);
+        return next.x >= 0 && next.x <= 9 && next.y >= 0 && next.y <= 9;
+    }
 
     public Coordinates(int x, int y) {
         this.x = x;
