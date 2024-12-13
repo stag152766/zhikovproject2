@@ -6,6 +6,8 @@ import entities.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Getter
@@ -17,6 +19,8 @@ public class EntityCreation implements Action {
     private final int building;
     private final int coffeeCount;
     private final SimMap simMap;
+    private final Set<Coordinates> processedCoordinates;
+    private final Random random;
 
     public EntityCreation(SimMap simMap, int manCount, int dogCount, int treeCount, int building, int coffeeCount) {
         this.simMap = simMap;
@@ -25,6 +29,8 @@ public class EntityCreation implements Action {
         this.treeCount = treeCount;
         this.building = building;
         this.coffeeCount = coffeeCount;
+        this.processedCoordinates = new HashSet<>();
+        this.random = new Random();
     }
 
     @Override
@@ -40,28 +46,40 @@ public class EntityCreation implements Action {
     private void setUpEntitiesWithDefaultPosition(SimMap map) {
         for (int i = 0; i < dogCount; i++) {
             Entity entity = new Dog(1, 30, 20);
-            setCoordinates(0, 1, entity, map);
+            setRandomCoordinates(entity, map);
         }
 
         for (int i = 0; i < manCount; i++) {
             Entity entity = new DeliveryMan(2, 60);
-            setCoordinates(0, 0, entity, map);
+            setRandomCoordinates(entity, map);
         }
 
         for (int i = 0; i < coffeeCount; i++) {
             Entity entity = new Coffee(20);
-            setCoordinates(1, 5, entity, map);
+            setRandomCoordinates(entity, map);
         }
 
         for (int i = 0; i < treeCount; i++) {
             Entity entity = new Tree();
-            setCoordinates(5, 8, entity, map);
+            setRandomCoordinates(entity, map);
         }
     }
 
-    private void setCoordinates(int x, int y, Entity entity, SimMap map) {
-        Coordinates coordinates = new Coordinates(x, y);
+    private void setRandomCoordinates(Entity entity, SimMap map) {
+        Coordinates coordinates = generateRandomCoordinates();
         entity.setCoordinates(coordinates);
         map.placeEntity(entity, coordinates);
+    }
+
+    private Coordinates generateRandomCoordinates() {
+        Coordinates next;
+        do {
+            int x = random.nextInt(9);
+            int y = random.nextInt(9);
+            next = new Coordinates(x, y);
+        } while (processedCoordinates.contains(next));
+        processedCoordinates.add(next);
+
+        return next;
     }
 }

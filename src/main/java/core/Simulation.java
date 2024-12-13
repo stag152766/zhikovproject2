@@ -22,7 +22,7 @@ public class Simulation {
      */
     public void startSimulation() {
         List<Action> initialActions = List.of(
-                new EntityCreation(simMap, 1, 1, 1, 1, 1)
+                new EntityCreation(simMap, 3, 3, 3, 1, 1)
         );
 
         initActions(initialActions);
