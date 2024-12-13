@@ -11,6 +11,7 @@ import java.util.Set;
  * Все существа перемещаются по очереди в течение одного хода (как в шахматах)
  */
 public class CreatureMoving implements Action {
+
     @Override
     public void apply(SimMap map) {
         Set<Coordinates> processedCoordinates = new HashSet<>();

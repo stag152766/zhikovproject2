@@ -2,28 +2,21 @@ package core;
 
 import actions.Action;
 import actions.CreatureMoving;
-import actions.EntityCreation;
 
 import java.util.Collection;
 import java.util.List;
 
 public class Simulation {
-
-    public final SimMap simMap;
-    public final MapConsoleRenderer renderer;
-
-    public Simulation(SimMap simMap, MapConsoleRenderer renderer) {
-        this.simMap = simMap;
-        this.renderer = renderer;
-    }
+    private final SimMap simMap = new SimMap();
+    private final MapConsoleRenderer renderer = new MapConsoleRenderer();
+    private final InputParameters inputParameters = new InputParameters();
 
     /**
      * запустить бесконечный цикл симуляции и рендеринга
      */
     public void startSimulation() {
-        List<Action> initialActions = List.of(
-                new EntityCreation(simMap, 3, 3, 3, 1, 1)
-        );
+        Action creation = inputParameters.initEntityCreationAction();
+        List<Action> initialActions = List.of(creation);
 
         initActions(initialActions);
         renderer.render(simMap);
@@ -31,7 +24,11 @@ public class Simulation {
 
         while (true) {
             nextTurn(turnActions);
-            break;
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

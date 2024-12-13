@@ -16,18 +16,14 @@ public class EntityCreation implements Action {
     private final int manCount;
     private final int dogCount;
     private final int treeCount;
-    private final int building;
     private final int coffeeCount;
-    private final SimMap simMap;
     private final Set<Coordinates> processedCoordinates;
     private final Random random;
 
-    public EntityCreation(SimMap simMap, int manCount, int dogCount, int treeCount, int building, int coffeeCount) {
-        this.simMap = simMap;
+    public EntityCreation(int manCount, int dogCount, int treeCount, int coffeeCount) {
         this.manCount = manCount;
         this.dogCount = dogCount;
         this.treeCount = treeCount;
-        this.building = building;
         this.coffeeCount = coffeeCount;
         this.processedCoordinates = new HashSet<>();
         this.random = new Random();

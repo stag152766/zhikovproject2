@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * максимально опишем общую логику
+ */
 @Getter
 @Setter
 public abstract class Entity {
@@ -21,19 +24,19 @@ public abstract class Entity {
             // случайный выбор следующего хода
             Coordinates next = new ArrayList<>(availableMoves).get(0);
             this.setCoordinates(next);
-            // мапу обновляем в экшене
+            // мапу обновляем в экшене - сущность не управляет доской
             System.out.printf("%s moved to %s\n", this.render(), next);
             return next;
         } else {
             return this.coordinates;
         }
-
     }
 
     public abstract String render();
 
-    // возвращает координаты для полей, доступных к перемещению
-    // максимально опишем общую логику
+    /**
+     * возвращает координаты для полей, доступных к перемещению
+     */
     public Set<Coordinates> availableMoveCoordinates(SimMap map) {
         Set<Coordinates> availableCoordinates = new HashSet<>();
         Set<CoordinatesShift> shifts = getEntityMovesPattern();
@@ -53,11 +56,16 @@ public abstract class Entity {
 
     protected boolean isCoordinatesAvailableForMove(Coordinates coordinates,
                                                     SimMap map) {
-        if (map.isEmptyCell(coordinates)) return true;
+        if (map.isEmptyCell(coordinates)) {
+            return true;
+        }
         Entity neigh = map.getEntityAt(coordinates);
         return isInteractionAvailable(neigh);
     }
 
+    /**
+     * Interaction with neigboor entiry (eat, hit)
+     */
     protected abstract boolean isInteractionAvailable(Entity neigh);
 
     // получить сдвиги для данной сущности
