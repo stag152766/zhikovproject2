@@ -4,26 +4,29 @@ import core.Coordinates;
 import core.SimMap;
 import entities.Entity;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Все существа перемещаются по очереди в течение одного хода (как в шахматах)
+ */
 public class CreatureMoving implements Action {
     @Override
     public void apply(SimMap map) {
-        // for each creature make random move
-        // be sure that new cell is empty
-        Map<Coordinates, Entity> entitiesOnMap = map.getEntitiesOnMap();
-        Iterator<Map.Entry<Coordinates, Entity>> iterator = entitiesOnMap.entrySet().iterator();
+        Set<Coordinates> processedCoordinates = new HashSet<>();
 
-        while(iterator.hasNext()) {
-            Map.Entry<Coordinates, Entity> entry = iterator.next();
-            Entity entity = entry.getValue();
-            Set<Coordinates> coordinates = entity.availableMoveCoordinates(map);
-            Iterator<Coordinates> iteratorSet = coordinates.stream().iterator();
-            Coordinates next = iteratorSet.next();
-            entity.makeMove(next);
-            entitiesOnMap.put(next, entity);
+        for (Coordinates from : new HashSet<>(map.getOccupiedCells())) {
+            if (processedCoordinates.contains(from)) {
+                continue;
+            }
+
+            Entity entity = map.getEntityAt(from);
+
+            if (entity.canMove()) {
+                Coordinates to = entity.makeMove(map);
+                map.moveEntity(from, to);
+                processedCoordinates.add(to);
+            }
         }
     }
 }

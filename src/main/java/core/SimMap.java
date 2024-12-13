@@ -1,19 +1,18 @@
 package core;
 
 import entities.Entity;
-import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-@Getter
 public class SimMap {
     // дублирование, у каждой сущности есть координаты чтобы она принимала решение куда и зачем ходить
-    private final Map<Coordinates, Entity> entitiesOnMap = new HashMap<>();
+    private final Map<Coordinates, Entity> cells = new HashMap<>();
 
-    public void setEntity(Entity entity, Coordinates coordinates) {
+    public void placeEntity(Entity entity, Coordinates coordinates) {
         entity.setCoordinates(coordinates);
-        entitiesOnMap.put(coordinates, entity);
+        cells.put(coordinates, entity);
     }
 
     public void setUpEntityPositions() {
@@ -21,10 +20,25 @@ public class SimMap {
     }
 
     public boolean isEmptyCell(Coordinates coordinates) {
-        return !(entitiesOnMap.containsKey(coordinates));
+        return !(cells.containsKey(coordinates));
     }
 
-    public Entity getEntity(Coordinates coordinates) {
-        return entitiesOnMap.get(coordinates);
+    public Entity getEntityAt(Coordinates coordinates) {
+        return cells.get(coordinates);
+    }
+
+    public Set<Coordinates> getOccupiedCells() {
+        return cells.keySet();
+    }
+
+    public void removeEntity(Coordinates coordinates){
+        cells.remove(coordinates);
+    }
+
+    public void moveEntity(Coordinates from, Coordinates to) {
+        Entity entity = getEntityAt(from);
+        removeEntity(from);
+
+        placeEntity(entity, to);
     }
 }

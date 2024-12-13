@@ -26,7 +26,7 @@ public class Simulation {
         );
 
         initActions(initialActions);
-        renderer.render(simMap.getEntitiesOnMap());
+        renderer.render(simMap);
         List<Action> turnActions = List.of(new CreatureMoving());
 
         while (true) {
@@ -46,7 +46,7 @@ public class Simulation {
      */
     private void nextTurn(List<Action> turnActions) {
         turnActions(turnActions);
-        renderer.render(simMap.getEntitiesOnMap());
+        renderer.render(simMap);
     }
 
     /**

@@ -1,6 +1,7 @@
 package entities;
 
 import core.Coordinates;
+import core.SimMap;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,11 +20,6 @@ public class Dog extends Creature {
         super(speed, hp);
         this.attackPower = attackPower;
         this.random = new Random();
-    }
-
-    @Override
-    public void makeMove(Coordinates next) {
-
     }
 
     @Override

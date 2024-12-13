@@ -6,7 +6,7 @@ import entities.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,44 +27,41 @@ public class EntityCreation implements Action {
         this.coffeeCount = coffeeCount;
     }
 
-
     @Override
-    public void apply(SimMap simMap) {
-        Map<Coordinates, Entity> map = simMap.getEntitiesOnMap();
-        setUpEntitiesWithDefaultPosition(map);
-    }
-
-    private void setUpEntitiesWithDefaultPosition(Map<Coordinates, Entity> map) {
-        if (!map.isEmpty()) {
+    public void apply(SimMap map) {
+        Set<Coordinates> occupiedCells = map.getOccupiedCells();
+        if (!occupiedCells.isEmpty()) {
             System.out.println("Map is not empty! Cannot create new entity.");
         }
 
+        setUpEntitiesWithDefaultPosition(map);
+    }
+
+    private void setUpEntitiesWithDefaultPosition(SimMap map) {
         for (int i = 0; i < dogCount; i++) {
             Entity entity = new Dog(1, 30, 20);
-            Coordinates coordinates = new Coordinates(0, 1);
-            entity.setCoordinates(coordinates);
-            map.put(coordinates, entity);
+            setCoordinates(0, 1, entity, map);
         }
 
         for (int i = 0; i < manCount; i++) {
             Entity entity = new DeliveryMan(2, 60);
-            Coordinates coordinates = new Coordinates(0, 0);
-            entity.setCoordinates(coordinates);
-            map.put(coordinates, entity);
+            setCoordinates(0, 0, entity, map);
         }
 
         for (int i = 0; i < coffeeCount; i++) {
             Entity entity = new Coffee(20);
-            Coordinates coordinates = new Coordinates(1, 5);
-            entity.setCoordinates(coordinates);
-            map.put(coordinates, entity);
+            setCoordinates(1, 5, entity, map);
         }
 
         for (int i = 0; i < treeCount; i++) {
             Entity entity = new Tree();
-            Coordinates coordinates = new Coordinates(5, 8);
-            entity.setCoordinates(coordinates);
-            map.put(coordinates, entity);
+            setCoordinates(5, 8, entity, map);
         }
+    }
+
+    private void setCoordinates(int x, int y, Entity entity, SimMap map) {
+        Coordinates coordinates = new Coordinates(x, y);
+        entity.setCoordinates(coordinates);
+        map.placeEntity(entity, coordinates);
     }
 }

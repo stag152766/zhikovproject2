@@ -3,13 +3,14 @@ package core;
 import entities.Entity;
 
 import java.util.Map;
+import java.util.Set;
 
 public class MapConsoleRenderer {
     public static final int ROWS = 10;
     public static final int COLS = 10;
     private int turnCount = 0;
 
-    public void render(Map<Coordinates, Entity> map) {
+    public void render(SimMap map) {
         // init empty field
         String[][] field = new String[ROWS][COLS];
         for (int row = 0; row < ROWS; row++) {
@@ -18,11 +19,14 @@ public class MapConsoleRenderer {
             }
         }
 
-
         // fill entities
-        map.forEach((c, e) -> {
-            field[c.x][c.y] = " " + e.render() + " ";
-        });
+        // need to revert coordinates, because of array structure [Y][X]
+        Set<Coordinates> occupiedCells = map.getOccupiedCells();
+        for (Coordinates cell: occupiedCells) {
+            Entity entity = map.getEntityAt(cell);
+            Coordinates coordinates = entity.getCoordinates();
+            field[coordinates.y][coordinates.x] = " " + entity.render() + " ";
+        }
 
         // print result
         turnCount++;

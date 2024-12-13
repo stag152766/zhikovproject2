@@ -18,13 +18,22 @@ public abstract class Creature extends Entity {
         this.hp = hp;
     }
 
-    // допущение: перемещение вверх-вниз вправо-влево на 1 клетку
+    // допущение: перемещение на 1 соседнюю клетку
     @Override
     protected Set<CoordinatesShift> getEntityMovesPattern() {
         return Set.of(new CoordinatesShift(0,1),
                 new CoordinatesShift(0,-1),
                 new CoordinatesShift(-1,0),
-                new CoordinatesShift(1,0)
+                new CoordinatesShift(1,0),
+                new CoordinatesShift(1,1),
+                new CoordinatesShift(1,-1),
+                new CoordinatesShift(-1,-1),
+                new CoordinatesShift(-1,1)
         );
+    }
+
+    @Override
+    public boolean canMove() {
+        return true;
     }
 }

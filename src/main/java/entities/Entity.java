@@ -6,6 +6,7 @@ import core.SimMap;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,9 +15,19 @@ import java.util.Set;
 public abstract class Entity {
     protected Coordinates coordinates;
 
-    // поиск пути
-    public void makeMove(Coordinates next) {
-        // do nothing by default
+    public Coordinates makeMove(SimMap map) {
+        if (this.canMove()) {
+            Set<Coordinates> availableMoves = availableMoveCoordinates(map);
+            // случайный выбор следующего хода
+            Coordinates next = new ArrayList<>(availableMoves).get(0);
+            this.setCoordinates(next);
+            // мапу обновляем в экшене
+            System.out.printf("%s moved to %s\n", this.render(), next);
+            return next;
+        } else {
+            return this.coordinates;
+        }
+
     }
 
     public abstract String render();
@@ -26,7 +37,7 @@ public abstract class Entity {
     public Set<Coordinates> availableMoveCoordinates(SimMap map) {
         Set<Coordinates> availableCoordinates = new HashSet<>();
         Set<CoordinatesShift> shifts = getEntityMovesPattern();
-        // проитерироваться по сдвигам
+        // итерироваться по сдвигам
         // сделать проверку доступности
         for (CoordinatesShift shift : shifts) {
             if (coordinates.canShift(shift)) {
@@ -36,13 +47,14 @@ public abstract class Entity {
                 }
             }
         }
+        // System.out.printf("Available moves for %s: %s\n", map.getEntityAt(coordinates).render(), availableCoordinates);
         return availableCoordinates;
     }
 
     protected boolean isCoordinatesAvailableForMove(Coordinates coordinates,
                                                     SimMap map) {
         if (map.isEmptyCell(coordinates)) return true;
-        Entity neigh = map.getEntity(coordinates);
+        Entity neigh = map.getEntityAt(coordinates);
         return isInteractionAvailable(neigh);
     }
 
@@ -50,4 +62,8 @@ public abstract class Entity {
 
     // получить сдвиги для данной сущности
     protected abstract Set<CoordinatesShift> getEntityMovesPattern();
+
+    public boolean canMove() {
+        return false;
+    }
 }
