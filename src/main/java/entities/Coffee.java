@@ -26,7 +26,7 @@ public class Coffee extends Entity {
 
     @Override
     protected Set<CoordinatesShift> getEntityMovesPattern() {
-        return Collections.emptySet();
+        return Set.of();
     }
 
     @Override

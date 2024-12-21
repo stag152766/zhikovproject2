@@ -26,6 +26,6 @@ public class Tree extends Entity {
 
     @Override
     protected Set<CoordinatesShift> getEntityMovesPattern() {
-        return Collections.emptySet();
+        return Set.of();
     }
 }
