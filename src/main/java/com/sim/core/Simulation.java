@@ -1,29 +1,33 @@
-package core;
+package com.sim.core;
 
-import actions.Action;
-import actions.MovingAction;
+import com.sim.actions.Action;
+import com.sim.actions.MovingAction;
+import com.sim.render.Renderer;
 
 import java.util.Collection;
 import java.util.List;
 
 public class Simulation {
-    private final WorldMap grid = new WorldMap();
-    private final MapConsoleRenderer renderer = new MapConsoleRenderer();
-    private final InputParameters inputParameters = new InputParameters();
+    private final WorldMap grid;
+    private final Renderer renderer;
+    private final List<Action> initialActions;
+    private final List<Action> turnActions;
 
-    public void startSimulationLoopWithRendering() {
-        Action creation = inputParameters.initEntityCreationAction();
-        List<Action> initialActions = List.of(creation);
+    public Simulation(WorldMap worldMap, Renderer render) {
+        this.grid = worldMap;
+        this.renderer = render;
+        initialActions = List.of(new InputParameter().buildCreationAction());
+        turnActions = List.of(new MovingAction());
+    }
+
+    public void startSimulation() {
         performActions(initialActions);
-
         renderer.render(grid);
-
-        List<Action> turnActions = List.of(new MovingAction());
 
         while (true) {
             nextTurn(turnActions);
             try {
-                Thread.sleep(1500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

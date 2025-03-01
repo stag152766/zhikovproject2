@@ -1,4 +1,4 @@
-package entities;
+package com.sim.entities;
 
 /**
  * City courier who deliveries shipment by bicycle

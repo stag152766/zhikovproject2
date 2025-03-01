@@ -1,4 +1,7 @@
-package core;
+package com.sim.core;
+
+import com.sim.render.ConsoleRenderer;
+import com.sim.render.Renderer;
 
 /*
 Пошаговая симуляция 2D мира, населенного курьерами и злыми собаками.
@@ -17,6 +20,9 @@ package core;
  */
 public class Main {
     public static void main(String[] args) {
-        new Simulation().startSimulationLoopWithRendering();
+        WorldMap worldMap = new WorldMap(10,10);
+        Renderer render = new ConsoleRenderer();
+        Simulation simulation = new Simulation(worldMap, render);
+        simulation.startSimulation();
     }
 }

@@ -1,8 +1,8 @@
-package actions;
+package com.sim.actions;
 
-import core.Coordinates;
-import core.WorldMap;
-import entities.Entity;
+import com.sim.core.Coordinates;
+import com.sim.core.WorldMap;
+import com.sim.entities.Entity;
 
 import java.util.HashSet;
 import java.util.Set;

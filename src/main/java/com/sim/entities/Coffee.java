@@ -1,6 +1,6 @@
-package entities;
+package com.sim.entities;
 
-import core.CoordinatesShift;
+import com.sim.core.CoordinatesShift;
 import lombok.Getter;
 import lombok.Setter;
 

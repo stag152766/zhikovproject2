@@ -1,24 +1,29 @@
-package core;
+package com.sim.render;
 
-import entities.Entity;
+import com.sim.core.Coordinates;
+import com.sim.core.WorldMap;
+import com.sim.entities.Entity;
 
 import java.util.Set;
 
-public class MapConsoleRenderer {
-    private final int ROWS = 10;
-    private final int COLS = 10;
+public class ConsoleRenderer implements Renderer {
     private int turnCount = 0;
+    private int rows;
+    private int cols;
 
+    @Override
     public void render(WorldMap map) {
+        this.rows = map.getRows();
+        this.cols = map.getColumns();
         String[][] field = createEmptyField();
         setEntityLocation(map, field);
         printResult(field);
     }
 
     private String[][] createEmptyField() {
-        String[][] field = new String[ROWS][COLS];
-        for (int row = 0; row < ROWS; row++) {
-            for (int col = 0; col < COLS; col++) {
+        String[][] field = new String[rows][cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 field[row][col] = ".. ";
             }
         }
@@ -48,9 +53,9 @@ public class MapConsoleRenderer {
     }
 
     private void print(String[][] field) {
-        for (int row = 0; row < ROWS; row++) {
+        for (int row = 0; row < rows; row++) {
             System.out.print("| ");
-            for (int col = 0; col < this.COLS; col++) {
+            for (int col = 0; col < this.cols; col++) {
                 System.out.print(field[row][col]);
             }
             System.out.println("|");

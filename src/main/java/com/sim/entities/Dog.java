@@ -1,4 +1,4 @@
-package entities;
+package com.sim.entities;
 
 import lombok.Getter;
 import lombok.Setter;

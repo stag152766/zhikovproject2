@@ -1,8 +1,7 @@
-package actions;
+package com.sim.actions;
 
-import core.WorldMap;
+import com.sim.core.WorldMap;
 
 public interface Action {
-
     void perform(WorldMap map);
 }

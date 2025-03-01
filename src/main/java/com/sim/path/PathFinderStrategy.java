@@ -1,5 +1,5 @@
-package core;
+package com.sim.path;
 
 // TODO реализовать алгоритм для поиска добычи
-public class PathFinder {
+public interface PathFinderStrategy {
 }

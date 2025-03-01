@@ -1,14 +1,21 @@
-package core;
+package com.sim.core;
 
-import entities.Entity;
+import com.sim.entities.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class WorldMap {
+    private int rows;
+    private int columns;
     // дублирование, у каждой сущности есть координаты, чтобы она принимала решение куда и зачем ходить
     private final Map<Coordinates, Entity> cells = new HashMap<>();
+
+    public WorldMap(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
+    }
 
     public void placeEntity(Entity entity, Coordinates coordinates) {
         entity.setCoordinates(coordinates);
@@ -39,5 +46,13 @@ public class WorldMap {
         Entity entity = getEntityAt(from);
         removeEntity(from);
         placeEntity(entity, to);
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
     }
 }

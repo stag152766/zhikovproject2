@@ -1,8 +1,8 @@
-package actions;
+package com.sim.actions;
 
-import core.Coordinates;
-import core.WorldMap;
-import entities.*;
+import com.sim.core.Coordinates;
+import com.sim.core.WorldMap;
+import com.sim.entities.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,14 +17,16 @@ public class CreateEntityAction implements Action {
     private final int dogCount;
     private final int treeCount;
     private final int coffeeCount;
-    private final Set<Coordinates> processedCoordinates = new HashSet<>();
-    private final Random random = new Random();
+    private final Set<Coordinates> processedCoordinates;
+    private final Random random;
 
     public CreateEntityAction(int manCount, int dogCount, int treeCount, int coffeeCount) {
         this.manCount = manCount;
         this.dogCount = dogCount;
         this.treeCount = treeCount;
         this.coffeeCount = coffeeCount;
+        processedCoordinates = new HashSet<>();
+        random = new Random();
     }
 
     @Override
@@ -37,24 +39,24 @@ public class CreateEntityAction implements Action {
         assertIsEmpty(map);
 
         for (int i = 0; i < dogCount; i++) {
-            Entity entity = new Dog(1, 30, 20);
-            setRandomCoordinates(entity, map);
+            setCoordinates(new Dog(1, 30, 20), map);
         }
 
         for (int i = 0; i < manCount; i++) {
-            Entity entity = new DeliveryMan(2, 60);
-            setRandomCoordinates(entity, map);
+            setCoordinates(new DeliveryMan(2, 60), map);
         }
 
         for (int i = 0; i < coffeeCount; i++) {
-            Entity entity = new Coffee(20);
-            setRandomCoordinates(entity, map);
+            setCoordinates(new Coffee(20), map);
         }
 
         for (int i = 0; i < treeCount; i++) {
-            Entity entity = new Tree();
-            setRandomCoordinates(entity, map);
+            setCoordinates(new Tree(), map);
         }
+    }
+
+    private void setCoordinates(Entity entity, WorldMap map) {
+        setRandomCoordinates(entity, map);
     }
 
     private static void assertIsEmpty(WorldMap map) {

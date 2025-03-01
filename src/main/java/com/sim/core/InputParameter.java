@@ -1,15 +1,15 @@
-package core;
+package com.sim.core;
 
-import actions.Action;
-import actions.CreateEntityAction;
+import com.sim.actions.Action;
+import com.sim.actions.CreateEntityAction;
 
 import java.util.Scanner;
 
-public class InputParameters {
+public class InputParameter {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public Action initEntityCreationAction() {
+    public Action buildCreationAction() {
 
         System.out.println("Enter dog amount: ");
         int dogCount = scanner.nextInt();

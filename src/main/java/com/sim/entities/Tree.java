@@ -1,10 +1,9 @@
-package entities;
+package com.sim.entities;
 
-import core.CoordinatesShift;
+import com.sim.core.CoordinatesShift;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**
