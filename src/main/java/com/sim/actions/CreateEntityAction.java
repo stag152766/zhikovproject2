@@ -17,16 +17,12 @@ public class CreateEntityAction implements Action {
     private final int dogCount;
     private final int treeCount;
     private final int coffeeCount;
-    private final Set<Coordinates> processedCoordinates;
-    private final Random random;
 
     public CreateEntityAction(int manCount, int dogCount, int treeCount, int coffeeCount) {
         this.manCount = manCount;
         this.dogCount = dogCount;
         this.treeCount = treeCount;
         this.coffeeCount = coffeeCount;
-        processedCoordinates = new HashSet<>();
-        random = new Random();
     }
 
     @Override
@@ -34,7 +30,6 @@ public class CreateEntityAction implements Action {
         setUpEntitiesWithDefaultPosition(map);
     }
 
-    // TODO убрать дублирование
     private void setUpEntitiesWithDefaultPosition(WorldMap map) {
         assertIsEmpty(map);
 
@@ -55,24 +50,16 @@ public class CreateEntityAction implements Action {
         }
     }
 
-    private void setCoordinates(Entity entity, WorldMap map) {
-        setRandomCoordinates(entity, map);
-    }
-
-    private static void assertIsEmpty(WorldMap map) {
-        Set<Coordinates> occupiedCells = map.getOccupiedCells();
-        if (!occupiedCells.isEmpty()) {
-            System.out.println("Map is not empty! Cannot create new entity.");
-        }
-    }
-
-    private void setRandomCoordinates(Entity entity, WorldMap map) {
+    private void setCoordinates(BaseEntity entity, WorldMap map) {
         Coordinates coordinates = generateRandomCoordinates();
+        // TODO убрать дублирование
         entity.setCoordinates(coordinates);
         map.placeEntity(entity, coordinates);
     }
 
     private Coordinates generateRandomCoordinates() {
+        Set<Coordinates> processedCoordinates = new HashSet<>();
+        Random random = new Random();
         Coordinates next;
         do {
             int x = random.nextInt(9);
@@ -82,5 +69,12 @@ public class CreateEntityAction implements Action {
         processedCoordinates.add(next);
 
         return next;
+    }
+
+    private static void assertIsEmpty(WorldMap map) {
+        Set<Coordinates> occupiedCells = map.getOccupiedCells();
+        if (!occupiedCells.isEmpty()) {
+            System.out.println("Map is not empty! Cannot create new entity.");
+        }
     }
 }

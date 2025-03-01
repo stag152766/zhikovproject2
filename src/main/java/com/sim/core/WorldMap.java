@@ -1,6 +1,6 @@
 package com.sim.core;
 
-import com.sim.entities.Entity;
+import com.sim.entities.BaseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,27 +10,31 @@ public class WorldMap {
     private int rows;
     private int columns;
     // дублирование, у каждой сущности есть координаты, чтобы она принимала решение куда и зачем ходить
-    private final Map<Coordinates, Entity> cells = new HashMap<>();
+    private final Map<Coordinates, BaseEntity> cells = new HashMap<>();
+
 
     public WorldMap(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
     }
 
-    public void placeEntity(Entity entity, Coordinates coordinates) {
-        entity.setCoordinates(coordinates);
-        cells.put(coordinates, entity);
+    public void moveEntity(Coordinates from, Coordinates to) {
+        BaseEntity entity = getEntityAt(from);
+        removeEntity(from);
+        placeEntity(entity, to);
     }
 
-    public void setUpEntityPositions() {
-    // TODO init map with starting entities
+    // TODO убрать дублирование
+    public void placeEntity(BaseEntity entity, Coordinates coordinates) {
+        entity.setCoordinates(coordinates);
+        cells.put(coordinates, entity);
     }
 
     public boolean isEmptyCell(Coordinates coordinates) {
         return !(cells.containsKey(coordinates));
     }
 
-    public Entity getEntityAt(Coordinates coordinates) {
+    public BaseEntity getEntityAt(Coordinates coordinates) {
         return cells.get(coordinates);
     }
 
@@ -38,14 +42,8 @@ public class WorldMap {
         return cells.keySet();
     }
 
-    public void removeEntity(Coordinates coordinates){
+    private void removeEntity(Coordinates coordinates){
         cells.remove(coordinates);
-    }
-
-    public void moveEntity(Coordinates from, Coordinates to) {
-        Entity entity = getEntityAt(from);
-        removeEntity(from);
-        placeEntity(entity, to);
     }
 
     public int getRows() {

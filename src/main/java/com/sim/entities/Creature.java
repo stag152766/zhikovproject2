@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public abstract class Creature extends Entity {
+public abstract class Creature extends BaseEntity {
     // number of cells that can make per 1 turn
     private int speed;
     private int hp;

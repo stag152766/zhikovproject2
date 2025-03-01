@@ -17,12 +17,7 @@ public class Dog extends Creature {
     }
 
     @Override
-    public String render() {
-        return "D";
-    }
-
-    @Override
-    protected boolean isInteractionAvailable(Entity neigh) {
+    protected boolean isInteractionAvailable(BaseEntity neigh) {
         if (neigh instanceof DeliveryMan){
             return true;
         }

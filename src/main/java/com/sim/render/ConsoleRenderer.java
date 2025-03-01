@@ -2,7 +2,7 @@ package com.sim.render;
 
 import com.sim.core.Coordinates;
 import com.sim.core.WorldMap;
-import com.sim.entities.Entity;
+import com.sim.entities.*;
 
 import java.util.Set;
 
@@ -33,16 +33,32 @@ public class ConsoleRenderer implements Renderer {
     private void setEntityLocation(WorldMap map, String[][] field) {
         Set<Coordinates> occupiedCells = map.getOccupiedCells();
         for (Coordinates cell: occupiedCells) {
-            Entity entity = map.getEntityAt(cell);
+            BaseEntity entity = map.getEntityAt(cell);
             Coordinates coordinates = entity.getCoordinates();
             // need to revert coordinates, because of array structure [Y][X]
-            field[coordinates.y][coordinates.x] = " " + entity.render() + " ";
+            field[coordinates.y][coordinates.x] = " " + printChar(entity) + " ";
         }
+    }
+
+    private String printChar(BaseEntity entity) {
+        if (entity instanceof DeliveryMan) {
+            return "M";
+        }
+        if (entity instanceof Dog) {
+            return "D";
+        }
+        if (entity instanceof Coffee) {
+            return "C";
+        }
+        if (entity instanceof Tree) {
+            return "T";
+        }
+        throw new IllegalArgumentException("Entity character is not found");
     }
 
     private void printResult(String[][] field) {
         printHeader();
-        print(field);
+        printField(field);
     }
 
     private void printHeader() {
@@ -52,7 +68,7 @@ public class ConsoleRenderer implements Renderer {
         System.out.println("_________________________________");
     }
 
-    private void print(String[][] field) {
+    private void printField(String[][] field) {
         for (int row = 0; row < rows; row++) {
             System.out.print("| ");
             for (int col = 0; col < this.cols; col++) {

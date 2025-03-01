@@ -2,7 +2,7 @@ package com.sim.actions;
 
 import com.sim.core.Coordinates;
 import com.sim.core.WorldMap;
-import com.sim.entities.Entity;
+import com.sim.entities.BaseEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,10 +26,10 @@ public class MovingAction implements Action {
                 continue;
             }
 
-            Entity entity = map.getEntityAt(from);
+            BaseEntity entity = map.getEntityAt(from);
 
             if (entity.canMove()) {
-                Coordinates to = entity.makeMove(map);
+                Coordinates to = entity.act(map);
                 // из-за дублирования (сущность и мапа содержат координаты)
                 // мы вынуждены обновлять мапу (логика инкапсулирована, но приходится обновлять в обоих местах)
                 // потенциальное место для ошибок

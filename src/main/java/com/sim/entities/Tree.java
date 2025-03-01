@@ -11,15 +11,10 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class Tree extends Entity {
+public class Tree extends BaseEntity {
 
     @Override
-    public String render() {
-        return "T";
-    }
-
-    @Override
-    protected boolean isInteractionAvailable(Entity entity) {
+    protected boolean isInteractionAvailable(BaseEntity entity) {
         return false;
     }
 

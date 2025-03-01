@@ -11,12 +11,7 @@ public class DeliveryMan extends Creature {
     }
 
     @Override
-    public String render() {
-        return "M";
-    }
-
-    @Override
-    protected boolean isInteractionAvailable(Entity neigh) {
+    protected boolean isInteractionAvailable(BaseEntity neigh) {
         return false;
     }
 }

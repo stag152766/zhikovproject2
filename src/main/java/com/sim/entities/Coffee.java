@@ -11,16 +11,11 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class Coffee extends Entity {
+public class Coffee extends BaseEntity {
     private int hp;
 
     public Coffee(int hp) {
         this.hp = hp;
-    }
-
-    @Override
-    public String render() {
-        return "C";
     }
 
     @Override
@@ -29,7 +24,7 @@ public class Coffee extends Entity {
     }
 
     @Override
-    protected boolean isInteractionAvailable(Entity neigh) {
+    protected boolean isInteractionAvailable(BaseEntity neigh) {
         return false;
     }
 }
