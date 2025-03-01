@@ -1,7 +1,7 @@
 package core;
 
 import actions.Action;
-import actions.EntityCreation;
+import actions.CreateEntityAction;
 
 import java.util.Scanner;
 
@@ -23,12 +23,6 @@ public class InputParameters {
         System.out.println("Enter coffee amount: ");
         int coffeeCount = scanner.nextInt();
 
-        return new EntityCreation(manCount, dogCount, treeCount, coffeeCount);
+        return new CreateEntityAction(manCount, dogCount, treeCount, coffeeCount);
     }
-
-    public int initMapSize() {
-        System.out.println("Enter map size: ");
-        return scanner.nextInt();
-    }
-
 }

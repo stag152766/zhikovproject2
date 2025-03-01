@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class SimMap {
-    // дублирование, у каждой сущности есть координаты чтобы она принимала решение куда и зачем ходить
+public class WorldMap {
+    // дублирование, у каждой сущности есть координаты, чтобы она принимала решение куда и зачем ходить
     private final Map<Coordinates, Entity> cells = new HashMap<>();
 
     public void placeEntity(Entity entity, Coordinates coordinates) {
@@ -16,7 +16,7 @@ public class SimMap {
     }
 
     public void setUpEntityPositions() {
-
+    // TODO init map with starting entities
     }
 
     public boolean isEmptyCell(Coordinates coordinates) {
@@ -38,7 +38,6 @@ public class SimMap {
     public void moveEntity(Coordinates from, Coordinates to) {
         Entity entity = getEntityAt(from);
         removeEntity(from);
-
         placeEntity(entity, to);
     }
 }

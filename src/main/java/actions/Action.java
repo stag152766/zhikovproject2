@@ -1,10 +1,8 @@
 package actions;
 
-import core.SimMap;
+import core.WorldMap;
 
-/**
- * Совершает действия над картой
- */
 public interface Action {
-    void apply(SimMap map);
+
+    void perform(WorldMap map);
 }

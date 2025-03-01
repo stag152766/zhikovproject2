@@ -4,7 +4,6 @@ import core.CoordinatesShift;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Collections;
 import java.util.Set;
 
 /**

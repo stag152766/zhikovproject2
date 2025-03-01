@@ -6,9 +6,9 @@ public class Coordinates {
     public final int x;
     public final int y;
 
-    // расчет сдвига
-    public Coordinates processShift(CoordinatesShift shift) {
-        return new Coordinates(this.x + shift.xShift, this.y + shift.yShift);
+    public Coordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public boolean canShift(CoordinatesShift shift) {
@@ -16,9 +16,11 @@ public class Coordinates {
         return next.x >= 0 && next.x <= 9 && next.y >= 0 && next.y <= 9;
     }
 
-    public Coordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
+    // расчет сдвига
+    public Coordinates processShift(CoordinatesShift shift) {
+        int newX = this.x + shift.xShift;
+        int newY = this.y + shift.yShift;
+        return new Coordinates(newX, newY);
     }
 
     @Override

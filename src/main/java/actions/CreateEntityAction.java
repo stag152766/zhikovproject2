@@ -1,7 +1,7 @@
 package actions;
 
 import core.Coordinates;
-import core.SimMap;
+import core.WorldMap;
 import entities.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,34 +12,30 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class EntityCreation implements Action {
+public class CreateEntityAction implements Action {
     private final int manCount;
     private final int dogCount;
     private final int treeCount;
     private final int coffeeCount;
-    private final Set<Coordinates> processedCoordinates;
-    private final Random random;
+    private final Set<Coordinates> processedCoordinates = new HashSet<>();
+    private final Random random = new Random();
 
-    public EntityCreation(int manCount, int dogCount, int treeCount, int coffeeCount) {
+    public CreateEntityAction(int manCount, int dogCount, int treeCount, int coffeeCount) {
         this.manCount = manCount;
         this.dogCount = dogCount;
         this.treeCount = treeCount;
         this.coffeeCount = coffeeCount;
-        this.processedCoordinates = new HashSet<>();
-        this.random = new Random();
     }
 
     @Override
-    public void apply(SimMap map) {
-        Set<Coordinates> occupiedCells = map.getOccupiedCells();
-        if (!occupiedCells.isEmpty()) {
-            System.out.println("Map is not empty! Cannot create new entity.");
-        }
-
+    public void perform(WorldMap map) {
         setUpEntitiesWithDefaultPosition(map);
     }
 
-    private void setUpEntitiesWithDefaultPosition(SimMap map) {
+    // TODO убрать дублирование
+    private void setUpEntitiesWithDefaultPosition(WorldMap map) {
+        assertIsEmpty(map);
+
         for (int i = 0; i < dogCount; i++) {
             Entity entity = new Dog(1, 30, 20);
             setRandomCoordinates(entity, map);
@@ -61,7 +57,14 @@ public class EntityCreation implements Action {
         }
     }
 
-    private void setRandomCoordinates(Entity entity, SimMap map) {
+    private static void assertIsEmpty(WorldMap map) {
+        Set<Coordinates> occupiedCells = map.getOccupiedCells();
+        if (!occupiedCells.isEmpty()) {
+            System.out.println("Map is not empty! Cannot create new entity.");
+        }
+    }
+
+    private void setRandomCoordinates(Entity entity, WorldMap map) {
         Coordinates coordinates = generateRandomCoordinates();
         entity.setCoordinates(coordinates);
         map.placeEntity(entity, coordinates);

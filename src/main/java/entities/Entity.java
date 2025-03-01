@@ -2,7 +2,7 @@ package entities;
 
 import core.Coordinates;
 import core.CoordinatesShift;
-import core.SimMap;
+import core.WorldMap;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,38 +11,40 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * максимально опишем общую логику
+ * Абстрактная сущность, в которой максимально опишем общую логику
  */
 @Getter
 @Setter
 public abstract class Entity {
     protected Coordinates coordinates;
 
-    public Coordinates makeMove(SimMap map) {
+    public abstract String render();
+
+    // G6 tree return coordinates - looks weird
+    public Coordinates makeMove(WorldMap map) {
         if (this.canMove()) {
             Set<Coordinates> availableMoves = availableMoveCoordinates(map);
             // случайный выбор следующего хода
             Coordinates next = new ArrayList<>(availableMoves).get(0);
-            this.setCoordinates(next);
+            setCoordinates(next);
             // мапу обновляем в экшене - сущность не управляет доской
             System.out.printf("%s moved to %s\n", this.render(), next);
             return next;
         } else {
-            return this.coordinates;
+            // TODO переделать на Optional
+            return coordinates;
         }
     }
-
-    public abstract String render();
 
     /**
      * возвращает координаты для полей, доступных к перемещению
      */
-    public Set<Coordinates> availableMoveCoordinates(SimMap map) {
+    private Set<Coordinates> availableMoveCoordinates(WorldMap map) {
         Set<Coordinates> availableCoordinates = new HashSet<>();
         Set<CoordinatesShift> shifts = getEntityMovesPattern();
-        // итерироваться по сдвигам
-        // сделать проверку доступности
+
         for (CoordinatesShift shift : shifts) {
+            // TODO убрать двойной вызов processShift()
             if (coordinates.canShift(shift)) {
                 Coordinates newCoordinates = coordinates.processShift(shift);
                 if (isCoordinatesAvailableForMove(newCoordinates, map)) {
@@ -54,8 +56,8 @@ public abstract class Entity {
         return availableCoordinates;
     }
 
-    protected boolean isCoordinatesAvailableForMove(Coordinates coordinates,
-                                                    SimMap map) {
+    private boolean isCoordinatesAvailableForMove(Coordinates coordinates,
+                                                    WorldMap map) {
         if (map.isEmptyCell(coordinates)) {
             return true;
         }

@@ -10,14 +10,13 @@ package core;
 
 
 Реализовать симуляцию - DONE
-Настройка различных значений (размер поля, диапозоны НР, скорости, атаки хищников) - DONE
+Настройка различных значений (размер поля, диапозоны НР, скорости, атаки хищников)
 Приостановить бесконечный цикл симуляции и рендеринга из консоли
 Рендерер (консольный интерфейс) - DONE
 Поиск пути (алгоритм в ширину, А*) - рандомный DONE
  */
 public class Main {
     public static void main(String[] args) {
-        Simulation simulation = new Simulation();
-        simulation.startSimulation();
+        new Simulation().startSimulationLoopWithRendering();
     }
 }

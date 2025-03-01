@@ -1,26 +1,24 @@
 package core;
 
 import actions.Action;
-import actions.CreatureMoving;
+import actions.MovingAction;
 
 import java.util.Collection;
 import java.util.List;
 
 public class Simulation {
-    private final SimMap simMap = new SimMap();
+    private final WorldMap grid = new WorldMap();
     private final MapConsoleRenderer renderer = new MapConsoleRenderer();
     private final InputParameters inputParameters = new InputParameters();
 
-    /**
-     * запустить бесконечный цикл симуляции и рендеринга
-     */
-    public void startSimulation() {
+    public void startSimulationLoopWithRendering() {
         Action creation = inputParameters.initEntityCreationAction();
         List<Action> initialActions = List.of(creation);
+        performActions(initialActions);
 
-        initActions(initialActions);
-        renderer.render(simMap);
-        List<Action> turnActions = List.of(new CreatureMoving());
+        renderer.render(grid);
+
+        List<Action> turnActions = List.of(new MovingAction());
 
         while (true) {
             nextTurn(turnActions);
@@ -33,7 +31,7 @@ public class Simulation {
     }
 
     /**
-     * приостановить бесконечный цикл симуляции и рендеринга
+     * TODO приостановить бесконечный цикл симуляции и рендеринга
      */
     private void pauseSimulation() {
     }
@@ -42,21 +40,14 @@ public class Simulation {
      * просимулировать и отрендерить один ход
      */
     private void nextTurn(List<Action> turnActions) {
-        turnActions(turnActions);
-        renderer.render(simMap);
+        performActions(turnActions);
+        renderer.render(grid);
     }
 
     /**
      * список действий, совершаемых перед стартом симуляции
      */
-    private void initActions(Collection<Action> actions) {
-        actions.forEach(action -> action.apply(simMap));
-    }
-
-    /**
-     * список действий, совершаемых каждый ход
-     */
-    private void turnActions(Collection<Action> actions) {
-        actions.forEach(action -> action.apply(simMap));
+    private void performActions(Collection<Action> actions) {
+        actions.forEach(action -> action.perform(grid));
     }
 }
