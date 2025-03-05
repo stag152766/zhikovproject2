@@ -7,20 +7,17 @@ import com.sim.entities.*;
 import java.util.Set;
 
 public class ConsoleRenderer implements Renderer {
-    private int turnCount = 0;
-    private int rows;
-    private int cols;
 
     @Override
     public void render(WorldMap map) {
-        this.rows = map.getRows();
-        this.cols = map.getColumns();
-        String[][] field = createEmptyField();
+        int rows = map.getRows();
+        int cols = map.getColumns();
+        String[][] field = createEmptyField(rows, cols);
         setEntityLocation(map, field);
-        printResult(field);
+        printResult(field, rows, cols);
     }
 
-    private String[][] createEmptyField() {
+    private String[][] createEmptyField(final int rows, final int cols) {
         String[][] field = new String[rows][cols];
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
@@ -56,22 +53,21 @@ public class ConsoleRenderer implements Renderer {
         throw new IllegalArgumentException("Entity character is not found");
     }
 
-    private void printResult(String[][] field) {
+    private void printResult(String[][] field, int rows, int cols) {
         printHeader();
-        printField(field);
+        printField(field, rows, cols);
     }
 
     private void printHeader() {
-        turnCount++;
         System.out.println();
-        System.out.printf("Turn #%s\n", turnCount);
+        System.out.println("Next turn");
         System.out.println("_________________________________");
     }
 
-    private void printField(String[][] field) {
+    private void printField(String[][] field, final int rows, final int cols) {
         for (int row = 0; row < rows; row++) {
             System.out.print("| ");
-            for (int col = 0; col < this.cols; col++) {
+            for (int col = 0; col < cols; col++) {
                 System.out.print(field[row][col]);
             }
             System.out.println("|");

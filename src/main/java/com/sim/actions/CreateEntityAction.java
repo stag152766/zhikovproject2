@@ -2,28 +2,18 @@ package com.sim.actions;
 
 import com.sim.core.Coordinates;
 import com.sim.core.WorldMap;
-import com.sim.entities.*;
+import com.sim.entities.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
 @Getter
 @Setter
-public class CreateEntityAction implements Action {
-    private final int manCount;
-    private final int dogCount;
-    private final int treeCount;
-    private final int coffeeCount;
-
-    public CreateEntityAction(int manCount, int dogCount, int treeCount, int coffeeCount) {
-        this.manCount = manCount;
-        this.dogCount = dogCount;
-        this.treeCount = treeCount;
-        this.coffeeCount = coffeeCount;
-    }
+public record CreateEntityAction(List<BaseEntity> entities) implements Action {
 
     @Override
     public void perform(WorldMap map) {
@@ -32,22 +22,7 @@ public class CreateEntityAction implements Action {
 
     private void setUpEntitiesWithDefaultPosition(WorldMap map) {
         assertIsEmpty(map);
-
-        for (int i = 0; i < dogCount; i++) {
-            setCoordinates(new Dog(1, 30, 20), map);
-        }
-
-        for (int i = 0; i < manCount; i++) {
-            setCoordinates(new DeliveryMan(2, 60), map);
-        }
-
-        for (int i = 0; i < coffeeCount; i++) {
-            setCoordinates(new Coffee(20), map);
-        }
-
-        for (int i = 0; i < treeCount; i++) {
-            setCoordinates(new Tree(), map);
-        }
+        entities.forEach(it -> setCoordinates(it, map));
     }
 
     private void setCoordinates(BaseEntity entity, WorldMap map) {

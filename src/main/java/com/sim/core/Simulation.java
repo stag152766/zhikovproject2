@@ -1,28 +1,28 @@
 package com.sim.core;
 
 import com.sim.actions.Action;
-import com.sim.actions.MovingAction;
 import com.sim.render.Renderer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class Simulation {
-    private final WorldMap grid;
+    private final WorldMap map;
     private final Renderer renderer;
     private final List<Action> initialActions;
     private final List<Action> turnActions;
 
-    public Simulation(WorldMap worldMap, Renderer render) {
-        this.grid = worldMap;
+    public Simulation(WorldMap map, Renderer render) {
+        this.map = map;
         this.renderer = render;
-        initialActions = List.of(new InputParameter().buildCreationAction());
-        turnActions = List.of(new MovingAction());
+        this.initialActions = new ArrayList<>();
+        this.turnActions = new ArrayList<>();
     }
 
     public void startSimulation() {
         performActions(initialActions);
-        renderer.render(grid);
+        renderer.render(map);
 
         while (true) {
             nextTurn(turnActions);
@@ -45,13 +45,21 @@ public class Simulation {
      */
     private void nextTurn(List<Action> turnActions) {
         performActions(turnActions);
-        renderer.render(grid);
+        renderer.render(map);
     }
 
     /**
      * список действий, совершаемых перед стартом симуляции
      */
     private void performActions(Collection<Action> actions) {
-        actions.forEach(action -> action.perform(grid));
+        actions.forEach(action -> action.perform(map));
+    }
+
+    public void addInitAction(Action action) {
+        initialActions.add(action);
+    }
+
+    public void addTurnAction(Action action) {
+        turnActions.add(action);
     }
 }

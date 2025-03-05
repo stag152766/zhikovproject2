@@ -1,7 +1,12 @@
 package com.sim.core;
 
+import com.sim.actions.CreateEntityAction;
+import com.sim.actions.MovingAction;
+import com.sim.entities.*;
 import com.sim.render.ConsoleRenderer;
 import com.sim.render.Renderer;
+
+import java.util.List;
 
 /*
 Пошаговая симуляция 2D мира, населенного курьерами и злыми собаками.
@@ -20,9 +25,30 @@ import com.sim.render.Renderer;
  */
 public class Main {
     public static void main(String[] args) {
-        WorldMap worldMap = new WorldMap(10,10);
-        Renderer render = new ConsoleRenderer();
-        Simulation simulation = new Simulation(worldMap, render);
-        simulation.startSimulation();
+        WorldMap map = new WorldMap(10, 10);
+        Renderer renderer = new ConsoleRenderer();
+        Simulation sim = new Simulation(map, renderer);
+
+//        PathFinderStrategy randomPathFinder = new RandomPathFinder();
+//        PathFinderStrategy smartPathFinder = new SmartPathFinder();
+
+        List<BaseEntity> entities = List.of(
+                new Dog(3, 20, 5),
+                new Dog(3, 20, 5),
+                new Dog(3, 20, 5),
+                new DeliveryMan(1, 30),
+                new DeliveryMan(1, 30),
+                new DeliveryMan(1, 30),
+                new Coffee(),
+                new Coffee(),
+                new Tree(),
+                new Tree(),
+                new Tree()
+        );
+
+        sim.addInitAction(new CreateEntityAction(entities));
+        sim.addTurnAction(new MovingAction());
+
+        sim.startSimulation();
     }
 }

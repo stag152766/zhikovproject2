@@ -12,11 +12,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class Coffee extends BaseEntity {
-    private int hp;
-
-    public Coffee(int hp) {
-        this.hp = hp;
-    }
 
     @Override
     protected Set<CoordinatesShift> getEntityMovesPattern() {
