@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -18,20 +19,18 @@ import java.util.Set;
 public abstract class BaseEntity implements Entity {
     protected Coordinates coordinates;
 
-    // G6 tree return coordinates - looks weird
     @Override
-    public Coordinates act(WorldMap map) {
-        if (this.canMove()) {
-            Set<Coordinates> availableMoves = availableMoveCoordinates(map);
+    public Optional<Coordinates> makeMove(WorldMap map) {
+        Set<Coordinates> availableMoves = availableMoveCoordinates(map);
+        if (availableMoves.isEmpty()) {
+            return Optional.empty();
+        } else {
             // случайный выбор следующего хода
             Coordinates next = new ArrayList<>(availableMoves).get(0);
             setCoordinates(next);
             // мапу обновляем в экшене - сущность не управляет доской
             //System.out.printf("%s moved to %s\n", this.render(), next);
-            return next;
-        } else {
-            // TODO переделать на Optional
-            return coordinates;
+            return Optional.of(next);
         }
     }
 
@@ -70,8 +69,4 @@ public abstract class BaseEntity implements Entity {
 
     // получить сдвиги для данной сущности
     protected abstract Set<CoordinatesShift> getEntityMovesPattern();
-
-    public boolean canMove() {
-        return false;
-    }
 }

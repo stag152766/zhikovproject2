@@ -31,9 +31,4 @@ public abstract class Creature extends BaseEntity {
                 new CoordinatesShift(-1,1)
         );
     }
-
-    @Override
-    public boolean canMove() {
-        return true;
-    }
 }

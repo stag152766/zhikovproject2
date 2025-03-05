@@ -28,8 +28,8 @@ public class MovingAction implements Action {
 
             BaseEntity entity = map.getEntityAt(from);
 
-            if (entity.canMove()) {
-                Coordinates to = entity.act(map);
+            if (entity.makeMove(map).isPresent()) {
+                Coordinates to = entity.makeMove(map).get();
                 // из-за дублирования (сущность и мапа содержат координаты)
                 // мы вынуждены обновлять мапу (логика инкапсулирована, но приходится обновлять в обоих местах)
                 // потенциальное место для ошибок

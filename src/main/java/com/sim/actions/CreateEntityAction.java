@@ -3,16 +3,13 @@ package com.sim.actions;
 import com.sim.core.Coordinates;
 import com.sim.core.WorldMap;
 import com.sim.entities.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-@Getter
-@Setter
+
 public record CreateEntityAction(List<BaseEntity> entities) implements Action {
 
     @Override
